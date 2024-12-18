@@ -1,0 +1,33 @@
+name: Setup Conda and Run PyInstaller
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Miniconda
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+        python-version: 3.11  # Specify the Python version you need
+        activate-environment: myenv
+        #environment-file: environment.yml  # Optional: if you have an environment file
+        auto-update-conda: true
+
+    - name: Install dependencies
+      run: |
+        conda install -c conda-forge  fiona gdal openpyxl matplotlib click pyqt mamba geopandas pyinstaller
+
+    - name: Run PyInstaller
+      run: |
+        pyinstaller tk_main.py  tk_main.spec
+
+    - name: Archive build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: pyinstaller-artifacts
+        path: dist/  # Adjust the path according to where PyInstaller outputs the files
