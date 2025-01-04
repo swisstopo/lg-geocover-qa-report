@@ -1,0 +1,56 @@
+# .github/workflows/conda-build.yml
+name: Build Conda Packages
+
+on:
+  push:
+    tags:
+      - 'v*'  # Trigger on version tags
+  pull_request:
+    branches: [ master, develop ]
+  workflow_dispatch:  # Allow manual triggers
+
+jobs:
+  build:
+    name: Build (${{ matrix.python-version }}, ${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false  # Don't cancel other jobs if one fails
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ['3.9', '3.10', '3.11']
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0  # Required for setuptools_scm
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install conda-build
+      shell: bash
+      run: |
+        python -m pip install conda-build anaconda-client conda-verify
+
+    - name: Build conda package
+      shell: bash
+      run: |
+        mkdir -p dist/conda
+        conda build . --output-folder dist/conda --python ${{ matrix.python-version }}
+
+    - name: Test conda package
+      shell: bash
+      run: |
+        conda install -c file://$(pwd)/dist/conda/${{ runner.os == 'Windows' && 'win-64' || 'linux-64' }} geocover-qa --use-local -y
+        python -c "import geocover_qa; print(geocover_qa.__version__)"
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: conda-packages-${{ matrix.os }}-py${{ matrix.python-version }}
+        path: |
+          dist/conda/*/*.tar.bz2
+          dist/conda/*/*.json
+

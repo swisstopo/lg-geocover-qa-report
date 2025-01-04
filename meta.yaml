@@ -11,11 +11,6 @@ package:
 source:
   path: .
 
-python:
-  - 3.9
-  - 3.10
-  - 3.11
-  - 3.12
 
 build:
   noarch: python
@@ -28,22 +23,24 @@ build:
 
 requirements:
   host:
-    - python
+    - python {{ python }}
     - pip
     - setuptools
     - setuptools_scm
   run:
-    - python
+    - python {{ python }}
     - geopandas >=0.10.0
     - click >=8.0.0
     - fiona
-    - gdal
+    - shapely
     - openpyxl
     - matplotlib
     - pyqt
     - pandas
     - numpy
     - loguru
+    - gdal  # [not win]
+    - gdal-data  # [win]
 
 test:
   imports:
