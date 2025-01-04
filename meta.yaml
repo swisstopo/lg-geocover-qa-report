@@ -40,7 +40,7 @@ requirements:
     - numpy
     - loguru
     - gdal  # [not win]
-    - gdal-data  # [win]
+
 
 test:
   imports:
