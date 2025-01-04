@@ -33,6 +33,7 @@ jobs:
       shell: bash
       run: |
         python -m pip install conda-build anaconda-client
+        pip install --upgrade pip
 
     - name: Build conda package
       shell: bash
