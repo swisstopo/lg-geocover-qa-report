@@ -28,7 +28,7 @@ dependencies = [
      "pandas",
     "numpy",
     "loguru",
-    "geocover>=0.0.40"
+   
 ]
 license = {file = "LICENSE"}
 classifiers = [

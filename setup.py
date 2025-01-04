@@ -4,10 +4,11 @@ from setuptools import setup, find_packages
 setup(
     setup_requires=['setuptools_scm'],
     use_scm_version={
-        'root': '.', # GIT root
+        # 'root': '.', # GIT root
         'write_to': 'src/geocover_qa/_version.py',
         'version_scheme': 'post-release',
-        'local_scheme': 'node-and-timestamp'
+        'local_scheme': 'dirty-tag', 
+        'fallback_version': '0.1'
     },
     name="geocover-qa",
     packages=find_packages(where="src"),
@@ -32,6 +33,7 @@ setup(
         "pandas",
         "numpy",
         "loguru",
+       
     ],
     extras_require={
         "gui": [

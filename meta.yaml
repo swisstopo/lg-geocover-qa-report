@@ -6,16 +6,12 @@
 
 package:
   name: geocover-qa
-  version: {{ data.get('version') }}
+  #version: {{ data.get('version') }}
+  version: {{ environ.get("CI_COMMIT_TAG", "0.1") }} # Use CI environment variable for versioning
 
 source:
   path: .
 
-python:
-  - 3.9
-  - 3.10
-  - 3.11
-  - 3.12
 
 build:
   noarch: python
@@ -28,29 +24,31 @@ build:
 
 requirements:
   host:
-    - python
+    - python {{ python }}
     - pip
     - setuptools
     - setuptools_scm
   run:
-    - python
+    - python {{ python }}
     - geopandas >=0.10.0
     - click >=8.0.0
     - fiona
-    - gdal
+    - shapely
     - openpyxl
     - matplotlib
     - pyqt
     - pandas
     - numpy
     - loguru
+    - gdal  # [not win]
+
 
 test:
   imports:
     - geocover_qa
 
   commands:
-    - conda install -y swisstopo::geocover
+    - conda install swisstopo::geocover -y
     - geocover --help
     
 about:
