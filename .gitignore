@@ -1,0 +1,13 @@
+*.mo
+__pycache__
+*.pyc
+*.log
+
+.idea
+output/Thumbs.db
+*.egg-info
+
+# build
+dist/
+build/
+

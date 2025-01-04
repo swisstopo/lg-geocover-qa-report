@@ -1,0 +1,2 @@
+include src/geocover_qa/data/*.gpkg
+include src/geocover_qa/data/*.json
