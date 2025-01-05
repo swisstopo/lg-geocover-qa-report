@@ -34,7 +34,7 @@ jobs:
     - name: Pip install
       shell: bash -el {0}
       run: |
-            conda install -y conda-build anaconda-client versioneer setuptools setuptools_scm
+            conda install -y conda-build conda-verify  anaconda-client versioneer setuptools setuptools_scm
            
 
     - name: Check conda installation
