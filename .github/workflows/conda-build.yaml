@@ -35,6 +35,8 @@ jobs:
       shell: bash -el {0}
       run: |
             conda install -y conda-build conda-verify  anaconda-client versioneer setuptools setuptools_scm
+            conda install --solver=classic conda-forge::conda-libmamba-solver conda-forge::libmamba conda-forge::libmambapy conda-forge::libarchive
+
            
 
     - name: Check conda installation
