@@ -52,6 +52,12 @@ jobs:
         shell: pwsh
         run: |
           conda build . --output-folder dist/conda --python ${{ matrix.python-version }}
+      - name: Build conda package
+        shell: bash -el {0}
+        run: |
+          pip install pyinstaller
+          pip install -e ".[gui]"
+          pyinstaller gui/geocover-qa.spec --distpath dist/gui --workpath build/gui
           
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
@@ -59,6 +65,12 @@ jobs:
           name: conda-packages-py${{ matrix.python-version }}
           path: |
             dist/conda/*
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: geocover-qa-gui-${{ matrix.python-version }}
+          path: |
+            dist/gui/*
             
 
 
