@@ -29,14 +29,14 @@ jobs:
       uses: conda-incubator/setup-miniconda@v3
       with:
           python-version: ${{ matrix.python-version }}
-          channels: conda-forge,defaults
+          channels: conda-forge  # default is included
           channel-priority: true
           activate-environment: QA
           conda-solver: ${{ matrix.solver }}
     - name: Conda install
       shell: bash -el {0}
       run: |
-            conda install -y conda-build conda-verify  anaconda-client versioneer setuptools setuptools_scm conda-forge::conda-libmamba-solver
+            conda install -y conda-build conda-verify  anaconda-client versioneer setuptools setuptools_scm 
 
            
 
@@ -54,6 +54,13 @@ jobs:
       run: |
         mkdir -p dist/conda
         conda build . --output-folder dist/conda --python ${{ matrix.python-version }}
+        
+    - name: Build conda package
+      shell: bash -el {0}
+      run: |
+        pip install pyinstaller
+        pip install -e ".[gui]"
+        pyinstaller gui/geocover-qa.spec --distpath dist/gui --workpath build/gui
 
     - name: Test conda package
       shell: bash -el {0}
@@ -61,11 +68,17 @@ jobs:
         conda install -c file://$(pwd)/dist/conda/${{ runner.os == 'Windows' && 'win-64' || 'linux-64' }} geocover-qa --use-local -y
         python -c "import geocover_qa; print(geocover_qa.__version__)"
 
-    - name: Upload artifacts
+
+    - name: Upload conda package
       uses: actions/upload-artifact@v3
-      with:
-        name: conda-packages-${{ matrix.os }}-py${{ matrix.python-version }}
-        path: |
-          dist/conda/*/*.tar.bz2
-          dist/conda/*/*.json
+      with: 
+        name: conda_package 
+        path: ${{ env.CI_COMMIT_TAG }}/your_package_name-*.tar.bz2 
+        if-no-files-found: error
+        
+    - name: Upload pyinstaller
+      uses: actions/upload-artifact@v3
+      with: 
+        name: conda_package 
+        path: dist/gui/* 
 

@@ -6,7 +6,8 @@
 
 package:
   name: geocover-qa
-  version: {{ data.get('version') }}
+  #version: {{ data.get('version') }}
+  version: {{ environ.get("CI_COMMIT_TAG", "0.1") }} # Use CI environment variable for versioning
 
 source:
   path: .
