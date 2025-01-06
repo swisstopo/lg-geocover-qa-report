@@ -33,6 +33,7 @@ setup(
         "pandas",
         "numpy",
         "loguru",
+        "geocover",
     ],
     extras_require={
         "gui": [

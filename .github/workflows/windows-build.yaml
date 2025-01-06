@@ -52,7 +52,7 @@ jobs:
         shell: pwsh
         run: |
           conda build . --output-folder dist/conda --python ${{ matrix.python-version }}
-      - name: Build conda package
+      - name: Build pyinstaller package
         shell: bash -el {0}
         run: |
           pip install pyinstaller
