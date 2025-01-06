@@ -1,0 +1,66 @@
+name: Build Conda Environnement
+
+on:
+  push:
+    branches:
+      - '*'
+    tags:
+      - '*'
+  pull_request:
+    branches:
+      - develop2
+
+jobs:
+  build:
+    name: Build windows only (${{ matrix.python-version }}
+    runs-on: windows-latest  # Only run on Windows
+    strategy:
+      fail-fast: false  # Don't cancel other jobs if one fails
+      matrix:
+        #os: [ubuntu-latest, windows-latest]
+        python-version: [ '3.11']
+        solver: ["classic", "libmamba"]
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Set up Miniconda
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+          auto-update-conda: true
+          activate-environment: QA
+          channels: swisstopo,conda-forge  # default is included
+          channel-priority: flexible
+          
+          
+      - name: Conda in PowerShell
+        shell: powershell
+        run: |
+          conda info
+          conda list
+      - name: Install packages in PowerShell Core
+        shell: pwsh
+        run: |
+          conda install conda-build anaconda-client conda-verify  versioneer setuptools setuptools_scm 
+          conda install jinja2 pyyaml click geopandas pandas loguru shapely >= 2.0.0 babel jsonschema openpyxl ruamel.yaml coverage unittests geocover
+          conda list
+          echo $env:CONDA_PREFIX
+          
+      - name: Build Conda Package
+        shell: pwsh
+        run: |
+          conda build . --output-folder dist/conda --python ${{ matrix.python-version }}
+          
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: conda-packages-py${{ matrix.python-version }}
+          path: |
+            dist/conda/*
+            
+
+
+
+
