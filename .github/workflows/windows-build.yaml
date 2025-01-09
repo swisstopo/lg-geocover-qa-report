@@ -48,10 +48,6 @@ jobs:
           conda list
           echo $env:CONDA_PREFIX
           
-      - name: Build Conda Package
-        shell: pwsh
-        run: |
-          conda build . --output-folder dist/conda --python ${{ matrix.python-version }}
       - name: Build pyinstaller package
         shell: bash -el {0}
         run: |
@@ -62,15 +58,23 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: conda-packages-py${{ matrix.python-version }}
-          path: |
-            dist/conda/*
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v3
-        with:
           name: geocover-qa-gui-${{ matrix.python-version }}
           path: |
             dist/gui/*
+          
+      - name: Build Conda Package
+        shell: pwsh
+        run: |
+          conda build . --output-folder dist/conda --python ${{ matrix.python-version }}
+
+          
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: conda-packages-py${{ matrix.python-version }}
+          path: |
+            dist/conda/*
+
             
 
 
