@@ -28,7 +28,7 @@ dependencies = [
      "pandas",
     "numpy",
     "loguru",
-    "geocover"
+   
 ]
 license = {file = "LICENSE"}
 classifiers = [
