@@ -35,11 +35,6 @@ jobs:
           channel-priority: flexible
           
           
-      - name: Conda in PowerShell
-        shell: powershell
-        run: |
-          conda info
-          conda list
       - name: Install packages in PowerShell Core
         shell: pwsh
         run: |
@@ -48,24 +43,11 @@ jobs:
           echo $env:CONDA_PREFIX
           conda env export 
           
-      - name: Build pyinstaller package
-        shell: bash -el {0}
-        run: |
-          conda install pyinstaller -y
-          pip install -e ".[gui]"
-          pyinstaller gui/geocover-qa.spec --distpath dist/gui --workpath build/gui
-          
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: geocover-qa-gui-${{ matrix.python-version }}
-          path: |
-            dist/gui/*
-          
+                
       - name: Build Conda Package
         shell: pwsh
         run: |
-          conda build . --output-folder dist/conda --python ${{ matrix.python-version }}
+          conda build . --output-folder dist --python ${{ matrix.python-version }}
 
           
       - name: Upload artifacts
@@ -73,7 +55,7 @@ jobs:
         with:
           name: conda-packages-py${{ matrix.python-version }}
           path: |
-            dist/conda/*
+            dist/*
 
             
 
