@@ -43,8 +43,7 @@ jobs:
       - name: Install packages in PowerShell Core
         shell: pwsh
         run: |
-          conda install conda-build anaconda-client conda-verify  versioneer setuptools setuptools_scm 
-          conda install jinja2 libffi pyyaml click geopandas pandas loguru shapely >= 2.0.0 babel jsonschema openpyxl ruamel.yaml coverage unittests
+          conda install conda-build anaconda-client conda-verify  versioneer setuptools setuptools_scm jinja2 libffi pyyaml click geopandas pandas loguru shapely >= 2.0.0 babel jsonschema openpyxl ruamel.yaml coverage unittests -y
           conda list
           echo $env:CONDA_PREFIX
           
