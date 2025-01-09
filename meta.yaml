@@ -48,7 +48,7 @@ test:
     - geocover_qa
 
   commands:
-    #- conda install -y swisstopo::geocover_qa
+    - conda install swisstopo::geocover -y
     - geocover --help
     
 about:
