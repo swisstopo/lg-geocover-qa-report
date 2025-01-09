@@ -33,6 +33,7 @@ jobs:
           activate-environment: QA
           channels: swisstopo,conda-forge  # defaults is included
           channel-priority: flexible
+          environment-file: windows-3.11-environment.yaml
           
           
       - name: Install packages in PowerShell Core
