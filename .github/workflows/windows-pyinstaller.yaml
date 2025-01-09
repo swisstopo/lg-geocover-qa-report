@@ -1,4 +1,4 @@
-name: Build windows only
+name: Build Pyinstaller windows only
 
 on:
   push:

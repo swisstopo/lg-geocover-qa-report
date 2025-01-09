@@ -1,4 +1,4 @@
-name: Build windows only
+name: Build conda windows only
 
 on:
   push:
