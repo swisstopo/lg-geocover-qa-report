@@ -46,6 +46,7 @@ jobs:
           conda install conda-build anaconda-client conda-verify  versioneer setuptools setuptools_scm jinja2 libffi pyyaml click geopandas gdal fiona pandas loguru shapely babel jsonschema openpyxl ruamel.yaml coverage -y
           conda list
           echo $env:CONDA_PREFIX
+          conda env export 
           
       - name: Build pyinstaller package
         shell: bash -el {0}
