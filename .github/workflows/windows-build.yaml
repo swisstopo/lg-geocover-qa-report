@@ -51,7 +51,7 @@ jobs:
       - name: Build pyinstaller package
         shell: bash -el {0}
         run: |
-          pip install pyinstaller
+          conda install pyinstaller -y
           pip install -e ".[gui]"
           pyinstaller gui/geocover-qa.spec --distpath dist/gui --workpath build/gui
           
