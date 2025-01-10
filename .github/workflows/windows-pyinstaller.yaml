@@ -24,10 +24,12 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
+        with:
+          fetch-depth: '0'
         
       - name: Get the version tag
         shell: bash -el {0}
-        id: get_version
+        id: vars
         run: |
             echo "Tag name from GITHUB_REF_NAME: $GITHUB_REF_NAME"
             echo "Tag name from github.ref_name: ${{  github.ref_name }}"
