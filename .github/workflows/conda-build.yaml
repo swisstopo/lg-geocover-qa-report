@@ -1,0 +1,84 @@
+# .github/workflows/conda-build.yml
+name: Build Conda Packages
+
+on:
+  push:
+    tags:
+      - 'v*'  # Trigger on version tags
+  pull_request:
+    branches: [ master, develop ]
+  workflow_dispatch:  # Allow manual triggers
+
+jobs:
+  build:
+    name: Build (${{ matrix.python-version }}, ${{ matrix.os }}),  ${{ matrix.solver }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false  # Don't cancel other jobs if one fails
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: [ '3.11']
+        solver: ["classic", "libmamba"]
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Required for setuptools_scm
+        
+    - name: Install miniconda
+      uses: conda-incubator/setup-miniconda@v3
+      with:
+          python-version: ${{ matrix.python-version }}
+          channels: conda-forge  # default is included
+          channel-priority: true
+          activate-environment: QA
+          conda-solver: ${{ matrix.solver }}
+    - name: Conda install
+      shell: bash -el {0}
+      run: |
+            conda install -y conda-build conda-verify  anaconda-client versioneer setuptools setuptools_scm 
+
+           
+
+    - name: Check conda installation
+      shell: bash -el {0}
+      run: |
+          conda info
+          conda list
+          conda config --show
+          printenv | sort
+
+
+    - name: Build conda package
+      shell: bash -el {0}
+      run: |
+        mkdir -p dist/conda
+        conda build . --output-folder dist/conda --python ${{ matrix.python-version }}
+        
+    - name: Build conda package
+      shell: bash -el {0}
+      run: |
+        pip install pyinstaller
+        pip install -e ".[gui]"
+        pyinstaller gui/geocover-qa.spec --distpath dist/gui --workpath build/gui
+
+    - name: Test conda package
+      shell: bash -el {0}
+      run: |
+        conda install -c file://$(pwd)/dist/conda/${{ runner.os == 'Windows' && 'win-64' || 'linux-64' }} geocover-qa --use-local -y
+        python -c "import geocover_qa; print(geocover_qa.__version__)"
+
+
+    - name: Upload conda package
+      uses: actions/upload-artifact@v3
+      with: 
+        name: conda_package 
+        path: ${{ env.CI_COMMIT_TAG }}/your_package_name-*.tar.bz2 
+        if-no-files-found: error
+        
+    - name: Upload pyinstaller
+      uses: actions/upload-artifact@v3
+      with: 
+        name: conda_package 
+        path: dist/gui/* 
+
