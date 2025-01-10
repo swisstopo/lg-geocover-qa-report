@@ -28,7 +28,9 @@ jobs:
       - name: Get the version tag
         shell: bash -el {0}
         id: get_version
-        run: echo "::set-output name=VERSION::$(git describe --tags --abbrev=0)"
+        run: |
+            echo "Tag name from GITHUB_REF_NAME: $GITHUB_REF_NAME"
+            echo "Tag name from github.ref_name: ${{  github.ref_name }}"
         
 
       - name: Set up Miniconda
