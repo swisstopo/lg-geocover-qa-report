@@ -74,7 +74,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: geocover-qa-gui-${{ steps.get_version.outputs.VERSION }}-${{ matrix.python-version }}
+          name: geocover-qa-gui-${VERSION}-${{ matrix.python-version }}
           path: |
             dist/gui/*
           
