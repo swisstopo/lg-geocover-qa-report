@@ -67,7 +67,7 @@ jobs:
         run: |
           conda install pyinstaller -y
           pip install -e ".[gui]"
-          pyinstaller gui/geocover-qa.spec --distpath dist/gui --workpath build/gui --name geocover-qa-$VERSION
+          pyinstaller gui/geocover-qa.spec --distpath dist/gui --workpath build/gui
           
       - name: Rename artifacts
         shell: powershell
