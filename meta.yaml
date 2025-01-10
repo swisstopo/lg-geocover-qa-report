@@ -1,0 +1,68 @@
+# meta.yaml (base package without GUI)
+{% set data = load_setup_py_data() %}
+
+
+
+
+package:
+  name: geocover-qa
+  #version: {{ data.get('version') }}
+  version: {{ environ.get("CI_COMMIT_TAG", "0.1") }} # Use CI environment variable for versioning
+
+source:
+  path: .
+
+
+build:
+  noarch: python
+  number: {{ environ.get('GIT_DESCRIBE_NUMBER', 0) }}
+  string: py{{ environ.get('CONDA_PY', '') }}_{{ environ.get('GIT_BUILD_STR', 'local') }}
+  script: {{ PYTHON }} -m pip install . --no-deps -vv
+  # Exclude GUI-related files
+  ignore_prefix_files:
+    - gui/*
+
+requirements:
+  host:
+    - python {{ python }}
+    - pip
+    - setuptools
+    - setuptools_scm
+  run:
+    - python {{ python }}
+    - geopandas >=0.10.0
+    - click >=8.0.0
+    - fiona
+    - shapely
+    - openpyxl
+    - matplotlib
+    - pyqt
+    - pandas
+    - numpy
+    - loguru
+    - gdal  # [not win]
+
+
+test:
+  imports:
+    - geocover_qa
+
+  commands:
+    - conda install swisstopo::geocover -y
+    - geocover --help
+    
+about:
+  home: https://github.com/swisstopo/lg-geocover-qa-report
+  license: BSD
+  license_family: BSD
+  license_file: LICENSE
+  summary: 'A toolkit for quality analysis of geological 2D GeoCover, offering statistical displays, plot generation, and topological error correction.'
+  description: |
+    A versatile set of tools designed to work with the results of quality analysis of a geological 2D dataset. This module can display statistics, generate plots, and correct topological errors.
+  doc_url: https://github.com/swisstopo/lg-geocover-qa-report
+  doc_source_url: https://github.com/swisstopo/lg-geocover-qa-report/blob/master/README.md
+
+extra:
+  recipe-maintainers:
+    # GitHub IDs for maintainers of the recipe.
+    - ltmom

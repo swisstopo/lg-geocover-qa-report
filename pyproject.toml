@@ -1,0 +1,72 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+write_to = "src/geocover_qa/_version.py"
+version_scheme = "post-release"
+local_scheme = "node-and-timestamp"
+
+[project]
+name = "geocover-qa"
+dynamic = ["version"]
+readme = "README.md"
+authors = [
+    {name = "Marc Monnerat", email = "marc.monnerat@swisstopo.ch"}
+    ]
+
+keywords = ["GIS", "GeoCover", "swisstopo", "geology", "switzerland", "vector"]
+description = "package description"
+requires-python = ">=3.9"
+dependencies = [
+    "geopandas",
+    "click",
+    "fiona",
+    "gdal" ,
+    "openpyxl",
+    "matplotlib",
+     "pandas",
+    "numpy",
+    "loguru",
+   
+]
+license = {file = "LICENSE"}
+classifiers = [
+  # How mature is this project? Common values are
+  #   3 - Alpha
+  #   4 - Beta
+  #   5 - Production/Stable
+  "Development Status :: 3 - Alpha",
+
+  # Indicate who your project is intended for
+  "Intended Audience :: Developers",
+  "Development Status :: 3 - Alpha",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: Microsoft :: Windows",
+        "Operating System :: POSIX :: Linux",
+        "Topic :: Scientific/Engineering :: Image Processing",
+        "Topic :: Scientific/Engineering :: GIS",
+
+  # Specify the Python versions you support here.
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+]
+[project.optional-dependencies]
+gui = ["PyQt5","pyqtspinner"]
+dev=  ["pytest>=7.0.0","ruff", "flake8","twine", "conda-build" ,"setuptools_scm"  ]
+[project.urls]
+Homepage = "https://example.com"
+Documentation = "https://readthedocs.org"
+Repository = "https://github.com/swisstopo/lg-geocover-qa-report.git"
+
+[project.entry-points."geocover.plugins"]
+qa = "geocover_qa.cli.commands:qa"
+
+#[project.scripts]
+#geocover = "geocover_qa.cli.commands:geocover"
+
+
+
