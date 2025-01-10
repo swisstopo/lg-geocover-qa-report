@@ -2,17 +2,16 @@
 from setuptools import setup, find_packages
 
 setup(
-    setup_requires=['setuptools_scm'],
+    setup_requires=["setuptools_scm"],
     use_scm_version={
         # 'root': '.', # GIT root
-        'write_to': 'src/geocover_qa/_version.py',
-        'version_scheme': "release-branch-semver", # 'post-release',
-        'local_scheme': "no-local-version",  #'dirty-tag', 
-        'fallback_version': '0.1'
+        "write_to": "src/geocover_qa/_version.py",
+        "version_scheme": "release-branch-semver",  # 'post-release',
+        "local_scheme": "no-local-version",  #'dirty-tag',
+        "fallback_version": "0.1",
     },
     name="geocover-qa",
     packages=find_packages(where="src"),
-
     package_dir={"": "src"},
     # Add package data configuration
     package_data={
@@ -33,7 +32,6 @@ setup(
         "pandas",
         "numpy",
         "loguru",
-       
     ],
     extras_require={
         "gui": [
@@ -48,11 +46,8 @@ setup(
     },
     license_files=("LICENSE",),
     entry_points={
-
-        'geocover.plugins': [
-            'qa=geocover_qa.cli.commands:qa',
-
+        "geocover.plugins": [
+            "qa=geocover_qa.cli.commands:qa",
         ],
     },
-
 )
