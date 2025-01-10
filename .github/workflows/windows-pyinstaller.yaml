@@ -70,10 +70,9 @@ jobs:
           pyinstaller gui/geocover-qa.spec --distpath dist/gui --workpath build/gui
           
       - name: Rename artifacts
-        shell: powershell
+        shell: bash -el {0}
         run: | 
-          $version = (git describe --tags --abbrev=0)
-          Rename-Item -Path dist/gui/geocover_qa.exe -NewName dist/gui/geocover-qa-$version.exe
+          mv  dist/gui/geocover_qa.exe -NewName dist/gui/geocover-qa-$VERSION.exe
            
           
       - name: Upload artifacts
