@@ -73,7 +73,7 @@ jobs:
         shell: powershell
         run: | 
           $version = (git describe --tags --abbrev=0)
-          Rename-Item -Path dist/gui/geocover_qa*.exe -NewName dist/gui/geocover-qa-$version.exe
+          Rename-Item -Path dist/gui/geocover_qa.exe -NewName dist/gui/geocover-qa-$version.exe
            
           
       - name: Upload artifacts
