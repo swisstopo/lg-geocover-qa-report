@@ -69,11 +69,7 @@ jobs:
           pip install -e ".[gui]"
           pyinstaller gui/geocover-qa.spec --distpath dist/gui --workpath build/gui
           
-      - name: Rename artifacts
-        shell: bash -el {0}
-        run: | 
-          mv  dist/gui/geocover_qa.exe  dist/gui/geocover-qa-$VERSION.exe
-           
+          
           
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
