@@ -6,7 +6,7 @@ setup(
     use_scm_version={
         # 'root': '.', # GIT root
         "write_to": "src/geocover_qa/_version.py",
-        "version_scheme": "release-branch-semver",  # 'post-release',
+        "version_scheme": 'post-release', #"release-branch-semver",  # 'post-release',
         "local_scheme": "no-local-version",  #'dirty-tag',
         "fallback_version": "0.1",
     },

@@ -3,12 +3,12 @@ name: Build Pyinstaller windows only
 on:
   push:
     branches:
-      - '*'
+      - master
     tags:
       - '*'
   pull_request:
     branches:
-      - develop2
+      - develop
 
 jobs:
   build:
@@ -68,10 +68,11 @@ jobs:
         env:
           GIT_PAT: ${{ secrets.test_lg_swisstopo }}
         run: |
-         git config --global user.name "github-actions"
-         git config --global user.email "github-actions@github.com"
-         git tag -a "v${{env.VERSION }}" -m "Release version ${{env.VERSION }}"
-         git push origin "v${{env.VERSION }}"
+          echo "v${{env.VERSION }}"
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git tag -a "v${{env.VERSION }}" -m "Release version ${{env.VERSION }}"
+          git push origin "v${{env.VERSION }}"
         
       - name: Build pyinstaller package
         shell: bash -el {0}
@@ -85,7 +86,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: geocover-qa-gui${{env.VERSION }}-${{ matrix.python-version }}
+          name: geocover-qa-gui_${{env.VERSION }}_${{ matrix.python-version }}
           path: |
             dist/gui/*
           
