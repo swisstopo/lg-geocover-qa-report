@@ -27,7 +27,7 @@ jobs:
         with:
           fetch-depth: '0'
       - name: Fetch tags
-        run: git fetch --tags
+        run: git fetch --tags --force
         
       - name: Get the version tag
         shell: bash -el {0}
