@@ -2,32 +2,21 @@ import argparse
 import os
 import sys
 from contextlib import suppress
+from importlib.metadata import version
 
 import geopandas as gpd
 import matplotlib.pyplot as plt
 import pandas as pd
-
+import pyqtspinner
 from loguru import logger
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.backends.backend_qt5agg import \
+    FigureCanvasQTAgg as FigureCanvas
 from PyQt5.QtCore import Qt, QThread, pyqtSignal
 from PyQt5.QtGui import QIcon, QMovie
-from PyQt5.QtWidgets import (
-    QApplication,
-    QDialog,
-    QFileDialog,
-    QLabel,
-    QMainWindow,
-    QMessageBox,
-    QPushButton,
-    QStackedLayout,
-    QTableWidget,
-    QTableWidgetItem,
-    QTabWidget,
-    QVBoxLayout,
-    QWidget,
-)
-
-import pyqtspinner
+from PyQt5.QtWidgets import (QApplication, QDialog, QFileDialog, QLabel,
+                             QMainWindow, QMessageBox, QPushButton,
+                             QStackedLayout, QTableWidget, QTableWidgetItem,
+                             QTabWidget, QVBoxLayout, QWidget)
 
 from geocover_qa.stat import get_lots_perimeter, get_stats_for_issues_gdb
 from geocover_qa.utils import get_mapsheets_path, map_network_drive
@@ -234,6 +223,9 @@ if __name__ == "__main__":
     )
     parser.add_argument("gdb_path", nargs="?", help="Path to the .gdb directory")
     parser.add_argument("--start_dir", help="Initial directory for QFileDialog")
+    parser.add_argument(
+        "-V", "--version", action="version", version=version("geocover_qa")
+    )
     args = parser.parse_args()
     if os.name == "nt":
         map_network_drive(
@@ -243,6 +235,8 @@ if __name__ == "__main__":
 
     if args.gdb_path is None and os.path.isdir(DEFAULT_DIR):
         args.gdb_path = DEFAULT_DIR
+
+        sys.exit()
     app = QApplication(sys.argv)
     main_window = MainWindow(start_dir=args.start_dir, gdb_path=args.gdb_path)
     main_window.show()
