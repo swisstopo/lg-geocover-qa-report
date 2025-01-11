@@ -24,6 +24,21 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
+        with:
+          fetch-depth: '0'
+      - name: Fetch tags
+        run: |
+            git fetch --tags
+    
+        
+      - name: Get the version tag
+        shell: bash -el {0}
+        id: vars
+        run: |
+            echo "Tag name from GITHUB_REF_NAME: $GITHUB_REF_NAME"
+            echo "Tag name from github.ref_name: ${{  github.ref_name }}"
+      
+        
 
       - name: Set up Miniconda
         uses: conda-incubator/setup-miniconda@v3
@@ -31,7 +46,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
           auto-update-conda: true
           activate-environment: QA
-          channels: swisstopo,conda-forge  # defaults is included
+          channels: swisstopo,conda-forge,defaults  # defaults is included
           channel-priority: flexible
           environment-file: windows-3.11-environment.yaml
           
@@ -43,7 +58,21 @@ jobs:
           conda list
           echo $env:CONDA_PREFIX
           conda env export 
-          
+      
+      - name: Get version from setuptools_scm
+        shell: bash -el {0}
+        id: get_version
+        run: echo "VERSION=$(python -c 'import setuptools_scm; print(setuptools_scm.get_version())')" >> $GITHUB_ENV   
+        
+      - name: Tag Release
+        env:
+          GIT_PAT: ${{ secrets.test_lg_swisstopo }}
+        run: |
+         git config --global user.name "github-actions"
+         git config --global user.email "github-actions@github.com"
+         git tag -a "v${{env.VERSION }}" -m "Release version ${{env.VERSION }}"
+         git push origin "v${{env.VERSION }}"
+        
       - name: Build pyinstaller package
         shell: bash -el {0}
         run: |
@@ -51,10 +80,12 @@ jobs:
           pip install -e ".[gui]"
           pyinstaller gui/geocover-qa.spec --distpath dist/gui --workpath build/gui
           
+          
+          
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: geocover-qa-gui-${{ matrix.python-version }}
+          name: geocover-qa-gui${{env.VERSION }}-${{ matrix.python-version }}
           path: |
             dist/gui/*
           
