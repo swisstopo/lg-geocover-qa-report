@@ -398,7 +398,7 @@ def parse_qa_full_path(full_path, release, qa_name):
     if match:
         # Extract the date part
         date_str = match.group(1)
-        logger.info(date_str)
+        logger.debug(date_str)
 
         # Convert string to a datetime object
         try:
@@ -408,7 +408,7 @@ def parse_qa_full_path(full_path, release, qa_name):
             return None
 
         week = get_calendar_week(file_date)
-        logger.info(f"Match: {file_date}")
+        logger.debug(f"Match: {file_date}")
 
         meta = {
             "date": file_date,
