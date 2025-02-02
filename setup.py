@@ -2,14 +2,9 @@
 from setuptools import setup, find_packages
 
 setup(
-    setup_requires=["setuptools_scm"],
-    use_scm_version={
-        # 'root': '.', # GIT root
-        "write_to": "src/geocover_qa/_version.py",
-        "version_scheme": "release-branch-semver",  # 'post-release',
-        "local_scheme": "no-local-version",  #'dirty-tag',
-        "fallback_version": "0.1",
-    },
+    setup_requires=["setuptools_scm", "setuptools-git-versioning>=2.0,<3"],
+    use_scm_version=True,
+   
     name="geocover-qa",
     packages=find_packages(where="src"),
     package_dir={"": "src"},

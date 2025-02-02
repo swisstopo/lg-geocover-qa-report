@@ -1,5 +1,5 @@
 # meta.yaml (base package without GUI)
-{% set data = load_setup_py_data() %}
+{% set data = load_setup_py_data(setup_file='./setup.py', from_recipe_dir=True) %}
 
 
 
@@ -7,7 +7,8 @@
 package:
   name: geocover-qa
   #version: {{ data.get('version') }}
-  version: {{ environ.get("CI_COMMIT_TAG", "0.1") }} # Use CI environment variable for versioning
+  version:   {{ environ.get('MYPKG_VERSION', '') }}
+  #version: {{ environ.get("CI_COMMIT_TAG", "0.1") }} # Use CI environment variable for versioning
 
 source:
   path: .
@@ -15,12 +16,13 @@ source:
 
 build:
   noarch: python
-  number: {{ environ.get('GIT_DESCRIBE_NUMBER', 0) }}
-  string: py{{ environ.get('CONDA_PY', '') }}_{{ environ.get('GIT_BUILD_STR', 'local') }}
   script: {{ PYTHON }} -m pip install . --no-deps -vv
   # Exclude GUI-related files
   ignore_prefix_files:
     - gui/*
+  build:
+    - setuptools_scm>=8
+    - setuptools>=64
 
 requirements:
   host:

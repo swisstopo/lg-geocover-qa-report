@@ -1,12 +1,15 @@
 [build-system]
-requires = ["setuptools>=45", "wheel", "setuptools_scm>=6.2"]
+requires = ["setuptools>=45", "wheel", "setuptools_scm>=6.2","setuptools_scm[toml]>=6.2", "setuptools_scm_git_semver",]
 build-backend = "setuptools.build_meta"
 
-[tool.setuptools_scm]
-write_to = "src/geocover_qa/_version.py"
-version_scheme = "post-release"
-local_scheme = "no-local-version"
 
+
+
+[tool.setuptools_scm]
+version_scheme = "guess-next-dev"
+local_scheme = "no-local-version"
+normalize = false
+write_to =  "src/geocover_qa/_version.py"
 
 
 [project]
