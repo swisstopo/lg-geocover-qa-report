@@ -47,7 +47,7 @@ requirements:
 
 test:
   imports:
-    - geocover_qa
+    - geocover-qa
 
   commands:
     - conda install swisstopo::geocover -y
