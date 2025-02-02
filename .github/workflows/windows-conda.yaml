@@ -43,18 +43,22 @@ jobs:
           conda list
           echo $env:CONDA_PREFIX
           conda env export 
+      - name: Get version from setuptools_scm
+        shell: bash -el {0}
+        id: get_version
+        run: echo "VERSION=$(python -c 'import setuptools_scm; print(setuptools_scm.get_version())')" >> $GITHUB_ENV  
           
                 
       - name: Build Conda Package
         shell: pwsh
         run: |
-          conda build . --output-folder dist --python ${{ matrix.python-version }}
+          PKG_VERSION=${{env.VERSION }} conda build . --output-folder dist --python ${{ matrix.python-version }}
 
           
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: conda-packages-py${{ matrix.python-version }}
+          name: geocover-qa-${{env.VERSION }}-${{ matrix.python-version }}
           path: |
             dist/*
 
