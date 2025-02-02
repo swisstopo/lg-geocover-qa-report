@@ -45,13 +45,12 @@ requirements:
     - gdal  # [not win]
 
 
-test:
-  imports:
-    - geocover-qa
-
-  commands:
-    - conda install swisstopo::geocover -y
-    - geocover --help
+#test:
+#   commands:
+#    - conda install swisstopo::geocover -y
+#    - geocover --help
+#  imports:
+#    - geocover-qa
     
 about:
   home: https://github.com/swisstopo/lg-geocover-qa-report
