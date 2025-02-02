@@ -67,6 +67,7 @@ jobs:
       - name: Tag Release
         env:
           GIT_PAT: ${{ secrets.test_lg_swisstopo }}
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop'
         run: |
          git config --global user.name "github-actions"
          git config --global user.email "github-actions@github.com"
