@@ -24,6 +24,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
+        with:
+           fetch-depth: 0
 
       - name: Set up Miniconda
         uses: conda-incubator/setup-miniconda@v3
@@ -43,6 +45,10 @@ jobs:
           conda list
           echo $env:CONDA_PREFIX
           conda env export 
+      - name: Get version from setuptools_scm
+        shell: bash -el {0}
+        id: get_version
+        run: echo "PKG_VERSION=$(python -c 'import setuptools_scm; print(setuptools_scm.get_version())')" >> $GITHUB_ENV  
           
                 
       - name: Build Conda Package
@@ -54,7 +60,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: conda-packages-py${{ matrix.python-version }}
+          name: geocover-qa-${{env.PKG_VERSION }}-${{ matrix.python-version }}
           path: |
             dist/*
 

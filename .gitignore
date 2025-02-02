@@ -6,9 +6,9 @@ __pycache__
 .idea
 output/Thumbs.db
 *.egg-info
+*.egg
 
 # build
 dist/
 build/
 src/geocover_qa/_version.py
-
