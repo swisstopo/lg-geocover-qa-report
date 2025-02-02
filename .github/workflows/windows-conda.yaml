@@ -46,19 +46,19 @@ jobs:
       - name: Get version from setuptools_scm
         shell: bash -el {0}
         id: get_version
-        run: echo "VERSION=$(python -c 'import setuptools_scm; print(setuptools_scm.get_version())')" >> $GITHUB_ENV  
+        run: echo "PKG_VERSION=$(python -c 'import setuptools_scm; print(setuptools_scm.get_version())')" >> $GITHUB_ENV  
           
                 
       - name: Build Conda Package
         shell: pwsh
         run: |
-          PKG_VERSION=${{env.VERSION }} conda build . --output-folder dist --python ${{ matrix.python-version }}
+          conda build . --output-folder dist --python ${{ matrix.python-version }}
 
           
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: geocover-qa-${{env.VERSION }}-${{ matrix.python-version }}
+          name: geocover-qa-${{env.PKG_VERSION }}-${{ matrix.python-version }}
           path: |
             dist/*
 
