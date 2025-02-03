@@ -21,6 +21,7 @@ build:
   build:
     - setuptools_scm>=8
     - setuptools>=64
+    - versioneer
 
 requirements:
   host:
@@ -28,6 +29,7 @@ requirements:
     - pip
     - setuptools
     - setuptools_scm
+    - versioneer
   run:
     - python {{ python }}
     - geopandas >=0.10.0
