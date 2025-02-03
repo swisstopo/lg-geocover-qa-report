@@ -2,13 +2,12 @@ name: Build conda windows only
 
 on:
   push:
-    branches:
-      - '*'
     tags:
       - '*'
   pull_request:
     branches:
-      - develop2
+      - develop
+      - master
 
 jobs:
   build:
@@ -18,12 +17,12 @@ jobs:
       fail-fast: false  # Don't cancel other jobs if one fails
       matrix:
         #os: [ubuntu-latest, windows-latest]
-        python-version: [ '3.11']
+        python-version: [ '3.11', '3.12']
         solver: ["classic"]
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
            fetch-depth: 0
 
@@ -54,7 +53,7 @@ jobs:
       - name: Build Conda Package
         shell: pwsh
         run: |
-          conda build . --output-folder dist --python ${{ matrix.python-version }}
+          conda build --no-test   --output-folder dist --python ${{ matrix.python-version }} .
 
           
       - name: Upload artifacts

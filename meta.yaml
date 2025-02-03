@@ -1,13 +1,11 @@
 # meta.yaml (base package without GUI)
-{% set data = load_setup_py_data(setup_file='./setup.py', from_recipe_dir=True) %}
-
-
+{% set version = load_setup_py_data(setup_file='./setup.py', from_recipe_dir=True).version %}
 
 
 package:
   name: geocover-qa
-  #version: {{ data.get('version') }}
-  version:   {{ environ.get('PKG_VERSION', '') }}
+  version: {{ version }}
+  #version:   {{ environ.get('PKG_VERSION', '') }}
   #version: {{ environ.get("CI_COMMIT_TAG", "0.1") }} # Use CI environment variable for versioning
 
 source:
@@ -23,6 +21,7 @@ build:
   build:
     - setuptools_scm>=8
     - setuptools>=64
+    - versioneer
 
 requirements:
   host:
@@ -30,6 +29,7 @@ requirements:
     - pip
     - setuptools
     - setuptools_scm
+    - versioneer
   run:
     - python {{ python }}
     - geopandas >=0.10.0

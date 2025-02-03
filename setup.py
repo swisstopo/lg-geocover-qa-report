@@ -1,9 +1,13 @@
 # setup.py
 from setuptools import setup, find_packages
+import versioneer
+
 
 setup(
-    setup_requires=["setuptools_scm", "setuptools-git-versioning>=2.0,<3"],
-    use_scm_version=True,
+    setup_requires=["versioneer", "setuptools"],
+    use_scm_version=False,
+    version=versioneer.get_version(),
+     cmdclass=versioneer.get_cmdclass(),
    
     name="geocover-qa",
     packages=find_packages(where="src"),

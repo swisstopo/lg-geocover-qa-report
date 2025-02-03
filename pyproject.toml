@@ -1,15 +1,23 @@
 [build-system]
-requires = ["setuptools>=45", "wheel", "setuptools_scm>=6.2","setuptools_scm[toml]>=6.2", "setuptools_scm_git_semver",]
+requires = ["setuptools>=45", "wheel", "versioneer[toml]"]
 build-backend = "setuptools.build_meta"
 
 
 
 
-[tool.setuptools_scm]
-version_scheme = "guess-next-dev"
-local_scheme = "no-local-version"
-normalize = false
-write_to =  "src/geocover_qa/_version.py"
+#[tool.setuptools_scm]
+#version_scheme = "guess-next-dev"
+#local_scheme = "no-local-version"
+#normalize = false
+#write_to =  "src/geocover_qa/_version.py"
+
+[tool.versioneer]
+VCS = "git"
+style = "pep440"
+versionfile_source = "src/geocover_qa/_version.py"
+versionfile_build = "geocover_qa/_version.py"
+tag_prefix = "v"
+parentdir_prefix = "geocover_qa-"
 
 
 [project]
@@ -42,22 +50,17 @@ classifiers = [
   #   4 - Beta
   #   5 - Production/Stable
   "Development Status :: 3 - Alpha",
-
-  # Indicate who your project is intended for
   "Intended Audience :: Developers",
-  "Development Status :: 3 - Alpha",
-    "License :: OSI Approved :: BSD License",
-    "Operating System :: Microsoft :: Windows",
-        "Operating System :: POSIX :: Linux",
-        "Topic :: Scientific/Engineering :: Image Processing",
-        "Topic :: Scientific/Engineering :: GIS",
-
-  # Specify the Python versions you support here.
+  "License :: OSI Approved :: BSD License",
+  "Operating System :: Microsoft :: Windows",
+  "Operating System :: POSIX :: Linux",
+  "Topic :: Scientific/Engineering :: Image Processing",
+  "Topic :: Scientific/Engineering :: GIS",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.9",
-  "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+
 ]
 [project.optional-dependencies]
 gui = ["PyQt5","pyqtspinner"]

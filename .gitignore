@@ -11,6 +11,4 @@ output/Thumbs.db
 # build
 dist/
 build/
-
 src/geocover_qa/_version.py
-
