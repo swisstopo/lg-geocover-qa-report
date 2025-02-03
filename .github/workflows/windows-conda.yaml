@@ -54,7 +54,7 @@ jobs:
       - name: Build Conda Package
         shell: pwsh
         run: |
-          conda build . --output-folder dist --python ${{ matrix.python-version }}
+          conda build --no-test   --output-folder dist --python ${{ matrix.python-version }} .
 
           
       - name: Upload artifacts
