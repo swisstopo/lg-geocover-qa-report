@@ -1,0 +1,54 @@
+name: Tag version
+
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    name: Build windows only (${{ matrix.python-version }}
+    runs-on: windows-latest  # Only run on Windows
+    strategy:
+      fail-fast: false  # Don't cancel other jobs if one fails
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Fetch tags
+        run: |
+            git fetch --tags
+
+      - name: Set up Miniconda
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+          auto-update-conda: true
+          activate-environment: QA
+          channels: swisstopo,conda-forge,defaults  # defaults is included
+          channel-priority: flexible
+
+      - name: Install packages in PowerShell Core
+        shell: pwsh
+        run: |
+          conda install versioneer setuptools setuptools_scm  -y
+
+      - name: Get version from setuptools_scm
+        shell: bash -el {0}
+        id: get_version
+        run: echo "VERSION=$(python -c 'import setuptools_scm; print(setuptools_scm.get_version())')" >> $GITHUB_ENV
+        
+      - name: Tag Release
+        env:
+          GIT_PAT: ${{ secrets.test_lg_swisstopo }}
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop'
+        run: |
+         git config --global user.name "github-actions"
+         git config --global user.email "github-actions@github.com"
+         git tag -a "v${{env.VERSION }}" -m "Release version ${{env.VERSION }}"
+         git push origin "v${{env.VERSION }}"
+        
+
+          
+     
