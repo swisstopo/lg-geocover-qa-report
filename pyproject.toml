@@ -42,22 +42,17 @@ classifiers = [
   #   4 - Beta
   #   5 - Production/Stable
   "Development Status :: 3 - Alpha",
-
-  # Indicate who your project is intended for
   "Intended Audience :: Developers",
-  "Development Status :: 3 - Alpha",
-    "License :: OSI Approved :: BSD License",
-    "Operating System :: Microsoft :: Windows",
-        "Operating System :: POSIX :: Linux",
-        "Topic :: Scientific/Engineering :: Image Processing",
-        "Topic :: Scientific/Engineering :: GIS",
-
-  # Specify the Python versions you support here.
+  "License :: OSI Approved :: BSD License",
+  "Operating System :: Microsoft :: Windows",
+  "Operating System :: POSIX :: Linux",
+  "Topic :: Scientific/Engineering :: Image Processing",
+  "Topic :: Scientific/Engineering :: GIS",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.9",
-  "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+
 ]
 [project.optional-dependencies]
 gui = ["PyQt5","pyqtspinner"]
