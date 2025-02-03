@@ -2,8 +2,9 @@ name: Tag version
 
 on:
   push:
-    branches:
-      - master
+    tags:
+      - '*'
+
 jobs:
   build:
     name: Build windows only (${{ matrix.python-version }}
