@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=45", "wheel", "versioneer", "setuptools_scm>=6.2","setuptools_scm[toml]>=6.2", "setuptools_scm_git_semver",]
+requires = ["setuptools>=45", "wheel", "versioneer[toml]"]
 build-backend = "setuptools.build_meta"
 
 
@@ -15,7 +15,10 @@ build-backend = "setuptools.build_meta"
 VCS = "git"
 style = "pep440"
 versionfile_source = "src/geocover_qa/_version.py"
-parentdir_prefix = ""
+versionfile_build = "geocover_qa/_version.py"
+tag_prefix = "v"
+parentdir_prefix = "geocover_qa-"
+
 
 [project]
 name = "geocover-qa"
